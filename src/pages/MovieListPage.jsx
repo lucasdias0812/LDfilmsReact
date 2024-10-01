@@ -5,16 +5,13 @@ import { useState } from "react";
 export default function MovieListPage(){
 
     const [search, setSearch] = useState('')
-    const [listaFilmes, setlistaFilmes] = useState(movies)
-
-    const handleSearch = (e) =>{
-        setSearch(e.target.value)
-        
-        const filmesFiltrados = movies
-        setlistaFilmes(filmesFiltrados)
+    
+    const handleSearch = (event) =>{
+        setSearch(event.target.value)
     }
 
-
+    const filmesFiltrados = movies.filter(filme => filme.titulo.toLowerCase().includes(search.toLowerCase()))
+        
     return (
         <>
         <h2>Veja a lista completa de Filmes</h2>
@@ -28,11 +25,13 @@ export default function MovieListPage(){
         />
         <div className="flex">
         {
-        listaFilmes
-        .filter(filme=>(filme.titulo).includes(search))
+        filmesFiltrados.length > 0 ?   
+        filmesFiltrados
         .map(movie =>(
         <MovieCard key={movie.id} {...movie}/>
         ))
+        :
+        <p>Filme não Encontrado</p>
         }
     </div>
         </>
